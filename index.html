@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ramiro Bianchi — Shading & Lighting Reel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f4f0;
+    --ink: #111110;
+    --mid: #444440;
+    --light: #777770;
+    --accent: #c8ff00;
+    --accent-dark: #9bbf00;
+    --rule: #d8d7cf;
+    --card-bg: #eeeee8;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='8' stitchTiles='stitch' result='noise'/%3E%3CfeColorMatrix type='saturate' values='0' in='noise' result='grayNoise'/%3E%3CfeBlend in='SourceGraphic' in2='grayNoise' mode='overlay' result='blend'/%3E%3CfeComposite in='blend' in2='SourceGraphic' operator='in'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23grain)' opacity='0.08'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.35;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  header {
+    padding: 5rem 0 3rem;
+    border-bottom: 1.5px solid var(--rule);
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards;
+  }
+
+  .header-inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    align-items: end;
+  }
+
+  .name-block h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.6rem;
+  }
+
+  .name-block h1 em {
+    font-style: italic;
+    color: var(--mid);
+  }
+
+  .title-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #0a0a09;
+    background: var(--accent);
+    padding: 0.35rem 0.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .bio {
+    font-size: 1rem;
+    color: #333330;
+    max-width: 480px;
+    line-height: 1.75;
+  }
+
+  .header-meta {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .header-meta a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #555550;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .header-meta a:hover { color: var(--ink); }
+
+  section {
+    padding: 4rem 0;
+    border-bottom: 1.5px solid var(--rule);
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards;
+  }
+
+  section:nth-of-type(1) { animation-delay: 0.15s; }
+  section:nth-of-type(2) { animation-delay: 0.25s; }
+  section:nth-of-type(3) { animation-delay: 0.35s; }
+  section:nth-of-type(4) { animation-delay: 0.45s; }
+  section:nth-of-type(5) { animation-delay: 0.55s; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    background: var(--ink);
+    overflow: hidden;
+  }
+
+  .video-wrapper iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .video-caption {
+    margin-top: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--light);
+  }
+
+  .exp-grid { display: grid; gap: 0; }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    padding: 1.5rem 0;
+    border-bottom: 1.5px solid var(--rule);
+  }
+
+  .exp-item:last-child { border-bottom: none; }
+
+  .exp-role {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.35rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .exp-company {
+    font-size: 1rem;
+    color: #333330;
+    margin-bottom: 0.35rem;
+  }
+
+  .exp-desc {
+    font-size: 0.95rem;
+    color: #555550;
+    max-width: 440px;
+  }
+
+  .exp-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--light);
+    white-space: nowrap;
+    padding-top: 0.35rem;
+  }
+
+  .skills-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .skill-group-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 1rem;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    padding: 0.3rem 0.65rem;
+    background: var(--card-bg);
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    transition: background 0.2s, border-color 0.2s;
+    cursor: default;
+  }
+
+  .tag:hover { background: var(--accent); border-color: var(--accent); }
+
+  .tag.highlight {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+
+  .tag.highlight:hover {
+    background: var(--accent);
+    color: var(--ink);
+    border-color: var(--accent);
+  }
+
+  .edu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .edu-degree {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    margin-bottom: 0.2rem;
+    line-height: 1.3;
+  }
+
+  .edu-school {
+    font-size: 0.95rem;
+    color: #333330;
+    margin-bottom: 0.15rem;
+  }
+
+  .edu-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--light);
+  }
+
+  .lang-row { display: flex; gap: 2.5rem; flex-wrap: wrap; }
+
+  .lang-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    margin-bottom: 0.1rem;
+  }
+
+  .lang-level {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--light);
+  }
+
+  footer {
+    padding: 3rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.65s ease forwards;
+  }
+
+  footer .copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--light);
+  }
+
+  footer .links { display: flex; gap: 1.5rem; }
+
+  footer .links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  footer .links a:hover { color: var(--ink); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .header-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+    .header-meta { text-align: left; flex-direction: row; flex-wrap: wrap; gap: 1rem; }
+    .skills-block, .edu-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .exp-item { grid-template-columns: 1fr; }
+    .exp-period { order: -1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <div class="header-inner">
+      <div class="name-block">
+        <div class="title-tag">Shading · Lighting · Materials</div>
+        <h1>Ramiro<br><em>Bianchi</em></h1>
+        <p class="bio">Generalista 3D especializado en shading, iluminación y look development. Desarrollo visuales de alta calidad — desde la creación de materiales PBR hasta el render final — con enfoque técnico y estético orientado a producción CGI y VFX.</p>
+      </div>
+      <div class="header-meta">
+        <a href="/cdn-cgi/l/email-protection#6a180b070318054408030b040902035e2a0d070b030644090507"><span class="__cf_email__" data-cfemail="e694878b8f9489c8848f8788858e8fd2a6818b878f8ac885898b">[email&#160;protected]</span></a>
+        <a href="https://www.linkedin.com/in/ramiro-bianchi-969810206/" target="_blank">LinkedIn ↗</a>
+        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);">Buenos Aires, AR</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- SHADING & LIGHTING REEL -->
+  <section>
+    <div class="section-label">Shading & Lighting Reel</div>
+    <div class="video-wrapper">
+      <iframe
+        src="https://drive.google.com/file/d/1nPN_M8vYiHiUbJPZ9CLFmVyLuRkobdhu/preview"
+        title="Ramiro Bianchi — Shading & Lighting Reel"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <p class="video-caption">Shading & Lighting Reel 2026 — PBR · Look Development · CGI</p>
+  </section>
+
+  <!-- EXPERIENCIA -->
+  <section>
+    <div class="section-label">Experiencia</div>
+    <div class="exp-grid">
+
+      <div class="exp-item">
+        <div>
+          <div class="exp-role">Shading, Lighting & Rendering</div>
+          <div class="exp-company">Belier Arts</div>
+          <div class="exp-desc">Pipeline completo de shading, iluminación y rendering para producción CGI. Desarrollo de materiales PBR y look development de assets.</div>
+        </div>
+        <div class="exp-period">2022 — Presente</div>
+      </div>
+
+      <div class="exp-item">
+        <div>
+          <div class="exp-role">Shading, Lighting, VFX & Rendering</div>
+          <div class="exp-company">Lemon Cash App</div>
+          <div class="exp-desc">Desarrollo de assets 3D con pipeline completo de shading, iluminación y VFX. Rendering final orientado a comunicación de marca en entornos real-time y motion.</div>
+        </div>
+        <div class="exp-period">2023 — Presente</div>
+      </div>
+
+      <div class="exp-item">
+        <div>
+          <div class="exp-role">Generalist 3D Artist</div>
+          <div class="exp-company">Dorje Visuals</div>
+          <div class="exp-desc">Modelado, texturizado y animación para proyectos de visualización 3D y VFX. Trabajo en pipeline de producción end-to-end.</div>
+        </div>
+        <div class="exp-period">2022 — 2023</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- HABILIDADES -->
+  <section>
+    <div class="section-label">Habilidades & Software</div>
+    <div class="skills-block">
+
+      <div>
+        <div class="skill-group-title">Disciplinas</div>
+        <div class="skill-tags">
+          <span class="tag highlight">Shading</span>
+          <span class="tag highlight">Iluminación</span>
+          <span class="tag highlight">Look Development</span>
+          <span class="tag highlight">Rendering</span>
+          <span class="tag highlight">VFX</span>
+          <span class="tag highlight">Modelado</span>
+          <span class="tag highlight">Animación</span>
+          <span class="tag highlight">Real-Time</span>
+          <span class="tag highlight">Motion Graphics</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="skill-group-title">Software</div>
+        <div class="skill-tags">
+          <span class="tag highlight">Substance Painter</span>
+          <span class="tag highlight">Substance Designer</span>
+          <span class="tag highlight">Marmoset</span>
+          <span class="tag highlight">Maya</span>
+          <span class="tag highlight">Blender</span>
+          <span class="tag highlight">Unreal Engine</span>
+          <span class="tag highlight">Unity</span>
+          <span class="tag highlight">Spline</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCACIÓN -->
+  <section>
+    <div class="section-label">Educación</div>
+    <div class="edu-grid">
+
+      <div class="edu-item">
+        <div class="edu-degree">Tecnicatura en Animación 3D y Efectos Visuales</div>
+        <div class="edu-school">Universidad Nacional de San Martín</div>
+        <div class="edu-year">En curso</div>
+      </div>
+
+      <div class="edu-item">
+        <div class="edu-degree">Programación de Videojuegos con Unity</div>
+        <div class="edu-school">UTN eLearning</div>
+        <div class="edu-year">Feb 2025 — May 2025</div>
+      </div>
+
+      <div class="edu-item">
+        <div class="edu-degree">Diseño Gráfico</div>
+        <div class="edu-school">Universidad de Morón</div>
+        <div class="edu-year">2016 — 2018</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- IDIOMAS -->
+  <section>
+    <div class="section-label">Idiomas</div>
+    <div class="lang-row">
+      <div class="lang-item">
+        <div class="lang-name">Español</div>
+        <div class="lang-level">Nativo</div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-name">Inglés</div>
+        <div class="lang-level">Intermedio · B1</div>
+      </div>
+      <div class="lang-item">
+        <div class="lang-name">Portugués</div>
+        <div class="lang-level">Conversacional</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="copy">© 2026 Ramiro Bianchi</span>
+    <div class="links">
+      <a href="/cdn-cgi/l/email-protection#6d1f0c00041f0243
