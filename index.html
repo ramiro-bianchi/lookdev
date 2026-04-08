@@ -103,6 +103,15 @@
     flex-direction: column;
     gap: 0.4rem;
     align-items: flex-end;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .header-meta .meta-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: flex-end;
   }
 
   .header-meta a {
@@ -117,11 +126,12 @@
   .header-meta a:hover { color: var(--ink); }
 
   .profile-pic {
-    width: 160px;
+    width: 180px;
     height: auto;
     object-fit: cover;
     border-radius: 0;
     margin-bottom: 1.2rem;
+    display: block;
   }
 
   section {
@@ -367,9 +377,11 @@
       </div>
       <div class="header-meta">
         <img src="PortfolioPic.png" alt="Ramiro Bianchi" class="profile-pic">
-        <a href="/cdn-cgi/l/email-protection#d8aab9b5b1aab7f6bab1b9b6bbb0b1ec98bfb5b9b1b4f6bbb7b5"><span class="__cf_email__" data-cfemail="0f7d6e62667d60216d666e616c67663b4f68626e6663216c6062">[email&#160;protected]</span></a>
-        <a href="https://www.linkedin.com/in/ramiro-bianchi-969810206/" target="_blank">LinkedIn ↗</a>
-        <span style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);">Buenos Aires, AR</span>
+        <div class="meta-links">
+          <a href="mailto:ramiro.bianchi4@gmail.com">ramiro.bianchi4@gmail.com</a>
+          <a href="https://www.linkedin.com/in/ramiro-bianchi-969810206/" target="_blank">LinkedIn ↗</a>
+          <span style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);">Buenos Aires, AR</span>
+        </div>
       </div>
     </div>
   </header>
