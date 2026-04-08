@@ -350,6 +350,83 @@
   }
   footer .links a:hover { color: var(--ink); }
 
+  /* ── WORKS STRIP ── */
+  .works-strip {
+    display: flex;
+    gap: 0.4rem;
+    height: 280px;
+    overflow: hidden;
+  }
+
+  .work-item {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    transition: flex 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    display: block;
+    background: #1a1a18;
+  }
+
+  .work-item:hover { flex: 2.5; }
+
+  .work-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+  }
+
+  .work-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 2;
+  }
+
+  .work-item:hover .work-video { opacity: 1; }
+  .work-item:hover .work-img { opacity: 0; }
+
+  .work-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(transparent, rgba(0,0,0,0.6));
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 3;
+  }
+
+  .work-item:hover .work-overlay { opacity: 1; transform: translateY(0); }
+
+  .work-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: #fff;
+    line-height: 1.2;
+  }
+
+  .work-cat {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+  }
+
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(18px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -398,6 +475,44 @@
       </iframe>
     </div>
     <p class="video-caption">Shading & Lighting Reel 2026 — PBR · Look Development · CGI</p>
+  </section>
+
+  <!-- TRABAJOS -->
+  <section>
+    <div class="section-label">Trabajos</div>
+    <div class="works-strip">
+
+      <a class="work-item" href="#">
+        <img class="work-img" src="Inland_portada.png" alt="Paramount+ - Inland">
+        <video class="work-video" src="Inland_portada.mp4" muted loop playsinline></video>
+        <div class="work-overlay"><span class="work-name">Paramount+ — Inland</span><span class="work-cat">Shading</span></div>
+      </a>
+
+      <a class="work-item" href="#">
+        <img class="work-img" src="Creepy_portada.png" alt="CLUBBERS - Bélier">
+        <video class="work-video" src="Creepy_portada.mp4" muted loop playsinline></video>
+        <div class="work-overlay"><span class="work-name">CLUBBERS — Bélier</span><span class="work-cat">Look Dev · Shading · Lighting</span></div>
+      </a>
+
+      <a class="work-item" href="#">
+        <img class="work-img" src="Hacker_portada.png" alt="Hacker - LEMON Cash App">
+        <video class="work-video" src="Hacker_portada.mp4" muted loop playsinline></video>
+        <div class="work-overlay"><span class="work-name">Hacker — LEMON Cash App</span><span class="work-cat">Look Dev · Shading · Lighting</span></div>
+      </a>
+
+      <a class="work-item" href="#">
+        <img class="work-img" src="Boombah_portada.png" alt="Bombah - Flava">
+        <video class="work-video" src="Boombah_portada.mp4" muted loop playsinline></video>
+        <div class="work-overlay"><span class="work-name">Bombah — Flava</span><span class="work-cat">Shading · Lighting</span></div>
+      </a>
+
+      <a class="work-item" href="#">
+        <img class="work-img" src="Theater_portada.png" alt="Theater Assets">
+        <video class="work-video" src="Theater_portada.mp4" muted loop playsinline></video>
+        <div class="work-overlay"><span class="work-name">Theater Assets</span><span class="work-cat">Shading</span></div>
+      </a>
+
+    </div>
   </section>
 
   <!-- EXPERIENCIA -->
@@ -510,4 +625,24 @@
         <div class="lang-name">Inglés</div>
         <div class="lang-level">Intermedio · B1</div>
       </div>
-      <div class="lang
+      <div class="lang-item">
+        <div class="lang-name">Portugués</div>
+        <div class="lang-level">Conversacional</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="copy">© 2026 Ramiro Bianchi</span>
+    <div class="links">
+      <a href="/cdn-cgi/l/email-protection#b3c1d2dedac1dc9dd1dad2ddd0dbda87f3d4ded2dadf9dd0dcde">Email</a>
+      <a href="https://www.linkedin.com/in/ramiro-bianchi-969810206/" target="_blank">LinkedIn</a>
+    </div>
+  </footer>
+
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  document.querySelectorAll('.work-item').forEach(item => {
+    const video = item.querySelector('.work-video');
+    item.addEventListener('mousee
